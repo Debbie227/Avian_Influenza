@@ -69,7 +69,7 @@ def nucleotide_MSA():
 
         if get_response.ok:
             MSA = get_response.text
-            print(MSA)
+            #print(MSA)
 
         else:
             print("Alignment not ready. Please wait.")

@@ -5,6 +5,7 @@ import requests
 from Bio import SeqIO, AlignIO, Align
 from collections import Counter
 
+from Genetic_Analysis.MSA import nucleotide_MSA
 from Protein_Analysis.amino_acid_compare import compare_pb2_mutations, show_table, file_selector
 from Protein_Analysis.consensus_seq import seq_compare, get_consensus_sequence
 
@@ -69,20 +70,92 @@ position_count_animal = calculate_amino_acid_freq(msa_file)
 position_count_human = {}
 
 
+def seq_freq_output(file_path):
+    if os.path.exists(file_path):
+        position_count_user = calculate_amino_acid_freq(file_path)  # Calculate the frequency of MSA file
+    else:
+        print("File not found.")
+        exit()
+
+    # Use all accessions in file as accession list
+    accessions = []
+    for record in SeqIO.parse(file_path, "fasta"):
+        accessions.append(record.id)
+
+    # Human accession file is blank and all accessions from MSA are used to create consensus
+    user_sequence = get_consensus_sequence(file_path, "Protein_Analysis/blank.txt", accession_list=accessions)
+
+    # Create animal sequence from given data and align user sequence with animal sequence
+    animal_sequence = get_consensus_sequence(msa_file, "Protein_Analysis/HumanAcessions.fa")
+    aligner = Align.PairwiseAligner()
+    alignments = aligner.align(user_sequence[1], animal_sequence[1])
+
+    # Prepare sequences for seq_compare function
+    sequence_tuple = (alignments.sequences[0], alignments.sequences[1])
+    base_differences = seq_compare(sequence_tuple, len(sequence_tuple[0]))
+
+    # Create dataframe
+    df = compare_pb2_mutations(sequence_tuple[0], sequence_tuple[1], position_count_animal,
+                               position_count_user,
+                               base_differences)
+
+    #            print(df)
+    # Display tkinter table
+    try:
+        show_table(df)
+    except tk.TclError:
+        print(df)
+
+    print("\nTable generated.\n")
+
+    base_query = ""
+
+    while base_query.upper() != "N":
+        print("Would you like to query the amino acid percentages at a specific base?")
+        base_query = input("Y/N\n")
+
+        if base_query.upper() == "Y":
+            base = int(input("Enter base position.\n"))
+
+            try:
+                print("User amino acids at position " + str(base))
+                for amino_acid in position_count_user[base]:
+                    total_user_count = sum(position_count_user[base].values())
+                    percentage = (position_count_user[base].get(amino_acid, 0) / total_user_count) * 100
+                    print(amino_acid + ':', f"{percentage:.2f}%")
+
+                print("H5 animal amino acids at position " + str(base))
+                for amino_acid in position_count_animal[base]:
+                    total_animal_count = sum(position_count_animal[base].values())
+                    percentage = (position_count_animal[base].get(amino_acid, 0) / total_animal_count) * 100
+                    print(amino_acid + ':', f"{percentage:.2f}%")
+
+            except (IndexError, KeyError):
+                print("Invalid base position.")
+
+        elif base_query.upper() == "N":
+            continue
+        else:
+            print("Invalid Entry.")
+
+    return print("Exiting Amino Acid Comparison\n")
+
+
 def multiple_sequence_welcome():
     print("                Welcome to the amino acid comparison program.")
     print("  You can currently compare amino acid sequences from influenza PB2 segments.\n")
 
-    file_type = "4"
+    file_type = "9"
 
     print("  Do you have a single sequence to manually enter or a FASTA multiple sequence alignment file?\n")
     print("                    Please choose from the following options.\n")
 
     print("1. Single Sequence")
-    print("2. Multiple Sequence Alignment File")
-    print("3. Exit\n")
+    print("2. Multiple FASTA Sequence File")
+    print("3. Multiple Sequence Alignment File")
+    print("4. Exit\n")
 
-    while file_type != "3":
+    while file_type != "4":
 
         file_type = file_type.strip()
 
@@ -118,88 +191,30 @@ def multiple_sequence_welcome():
             return print("Table generated.")
 
         if file_type == "2":
+            with open("MSA_contents.fa", "a") as MSA_contents:
+                MSA_contents.write(nucleotide_MSA())
+
+            file_path = "MSA_contents.fa"
+
+            seq_freq_output(file_path)
+
+        if file_type == "3":
 
             try:
                 file_path = file_selector()
             except tk.TclError:
                 file_path = input("Please enter file path.")
 
-            if os.path.exists(file_path):
-                position_count_user = calculate_amino_acid_freq(file_path)  # Calculate the frequency of MSA file
-            else:
-                print("File not found.")
-                exit()
+            seq_freq_output(file_path)
 
-            # Use all accessions in file as accession list
-            accessions = []
-            for record in SeqIO.parse(file_path, "fasta"):
-                accessions.append(record.id)
-
-            # Human accession file is blank and all accessions from MSA are used to create consensus
-            user_sequence = get_consensus_sequence(file_path, "Protein_Analysis/blank.txt", accession_list=accessions)
-
-            # Create animal sequence from given data and align user sequence with animal sequence
-            animal_sequence = get_consensus_sequence(msa_file, "Protein_Analysis/HumanAcessions.fa")
-            aligner = Align.PairwiseAligner()
-            alignments = aligner.align(user_sequence[1], animal_sequence[1])
-
-            # Prepare sequences for seq_compare function
-            sequence_tuple = (alignments.sequences[0], alignments.sequences[1])
-            base_differences = seq_compare(sequence_tuple, len(sequence_tuple[0]))
-
-            # Create dataframe
-            df = compare_pb2_mutations(sequence_tuple[0], sequence_tuple[1], position_count_animal,
-                                       position_count_user,
-                                       base_differences)
-
-#            print(df)
-            # Display tkinter table
-            try:
-                show_table(df)
-            except tk.TclError:
-                print(df)
-
-            print("\nTable generated.\n")
-
-            base_query = ""
-
-            while base_query.upper() != "N":
-                print("Would you like to query the amino acid percentages at a specific base?")
-                base_query = input("Y/N\n")
-
-                if base_query.upper() == "Y":
-                    base = int(input("Enter base position.\n"))
-
-                    try:
-                        print("User amino acids at position " + str(base))
-                        for amino_acid in position_count_user[base]:
-                            total_user_count = sum(position_count_user[base].values())
-                            percentage = (position_count_user[base].get(amino_acid, 0) / total_user_count) * 100
-                            print(amino_acid + ':', f"{percentage:.2f}%")
-
-                        print("H5 animal amino acids at position " + str(base))
-                        for amino_acid in position_count_animal[base]:
-                            total_animal_count = sum(position_count_animal[base].values())
-                            percentage = (position_count_animal[base].get(amino_acid, 0) / total_animal_count) * 100
-                            print(amino_acid + ':', f"{percentage:.2f}%")
-
-                    except (IndexError, KeyError):
-                        print("Invalid base position.")
-
-                elif base_query.upper() == "N":
-                    continue
-                else:
-                    print("Invalid Entry.")
-
-            return print("Exiting Amino Acid Comparison\n")
-
-        if file_type == "3":
+        if file_type == "4":
             print("Thank you for using the amino acid comparison program.\nGoodbye.")
             exit()
 
         else:
             file_type = input("Invalid choice. Please Enter 1 for single sequence"
-                              "\nEnter 2 for a multiple sequence alignment file.\n Or enter 3 to return to main menu.\n")
+                              "\nEnter 2 for a multiple sequence fasta file.\n Enter 3 for a multiple sequence "
+                              "alignment file.\n Or enter 4 to return to main menu.\n")
 
 
 if __name__ == "__main__":
