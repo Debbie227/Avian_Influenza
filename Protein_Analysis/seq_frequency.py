@@ -191,12 +191,14 @@ def multiple_sequence_welcome():
             return print("Table generated.")
 
         if file_type == "2":
-            with open("MSA_contents.fa", "a") as MSA_contents:
+            with open("MSA_contents_temp.fa", "w") as MSA_contents:
                 MSA_contents.write(nucleotide_MSA())
 
-            file_path = "MSA_contents.fa"
+            file_path = "MSA_contents_temp.fa"
 
             seq_freq_output(file_path)
+
+            os.remove(file_path)
 
         if file_type == "3":
 
