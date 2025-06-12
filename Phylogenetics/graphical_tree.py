@@ -10,6 +10,6 @@ Version: 1.0
 License: MIT License
 """
 
-tree = Phylo.read("H5_tree_upgma.nwk", "newick")
+tree = Phylo.read("H5_tree_upgma_temp.nwk", "newick")
 plt.figure(figsize=(10, 8))
 Phylo.draw(tree, do_show=True)

@@ -1,15 +1,13 @@
 #!/usr/bin/env python3
-# File Name: Print_tree.py
-# Version 1.0
-# Author: Sarah Schoem
+
 
 """
-File name: HPAI_Human_map.py
-Author: Sarah Schoem
+File name: Print_tree.py
+Author: Sarah Schoem, Debra Pacheco
 Created: 2/13/25
-Version: 1.0
+Version: 1.2
 Description:
-    This script displays a phylogenetic tree of the H5 virus using the tree_analysis_output.txt file.
+    This script displays a phylogenetic tree using an ascii representation file.
 
 License: MIT License
 """
@@ -17,6 +15,22 @@ License: MIT License
 import os
 import tkinter as tk
 from tkinter import scrolledtext
+
+from Phylogenetics.build_tree import phyo_tree
+
+
+def file_choice():
+    choice = 'y'
+    choice = input("If you would like to display an MSA file please press 1. If you would like to align multiple "
+                   "sequences please press 2")
+    while choice != 'n':
+        if choice == '1':
+            phyo_tree()
+            show_file_content('ascii_temp.txt')
+            choice = input("Would you like to print another tree? y/n")
+        if choice == 'n':
+            print("Thank you for using the phlyogenetic tree program.\nGoodbye.")
+            exit()
 
 
 def show_file_content(filename):
@@ -45,3 +59,6 @@ def show_file_content(filename):
         window.mainloop()  # Keep the window open
     except FileNotFoundError:
         print(f"Error: The file {filename} was not found in {script_dir}")
+
+if __name__ == "__main__":
+    file_choice()

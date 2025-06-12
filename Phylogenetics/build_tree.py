@@ -24,7 +24,7 @@ License: MIT License
 
 def phyo_tree():
 
-    """ When a FASTA formatted MSA file is selected via file selection, this will print to screen a distance based
+    """ When a FASTA formatted MSA file is selected via file selection, this will save a distance based
     phylogenetic tree.
 
     Parameters:
@@ -58,15 +58,19 @@ def phyo_tree():
     tree = constructor.nj(dm)  # Neighbor-Joining method
 
     # Save the tree in Newick format
-    # Phylo.write(tree, "H5_tree_upgma.nwk", "newick")
+    #Phylo.write(tree, "H5_tree_upgma_temp.nwk", "newick")
+
 
     # Display ASCII tree
-    print("\nUPGMA Phylogenetic Tree:\n")
-    Phylo.draw_ascii(tree)
+    #print("\nUPGMA Phylogenetic Tree:\n")
+    #Phylo.draw_ascii(tree)
+
+    with open('ascii_temp.txt', 'w') as file:
+        Phylo.draw_ascii(tree, file=file)
 
     # Graphical visualization
-    plt.figure(figsize=(10, 8))
-    Phylo.draw(tree, do_show=False)
+    #plt.figure(figsize=(10, 8))
+    #Phylo.draw(tree, do_show=True)
     # plt.savefig("H5_tree_upgma.png")
     # print("\nTree saved as H5_tree_upgma.png")
 
