@@ -36,8 +36,7 @@ def file_choice():
     choice = input("If you would like to display a tree for an MSA file please press 1. If you would like to align "
                    "multiple sequences please press 2\n")
     while choice != 'n':
-        choice = input("If you would like to display an MSA file please press 1. If you would like to align multiple "
-                       "sequences please press 2\n")
+        choice = choice.strip(' ').lower()
         if choice == '1':
             '''Open file via file selector or write path manually'''
             try:
@@ -56,6 +55,10 @@ def file_choice():
             show_file_content('ascii_temp.txt')
 
             choice = input("Would you like to print another tree? y/n\n")
+            if choice == 'y':
+                choice = input(
+                    "If you would like to display an MSA file please press 1. If you would like to align multiple "
+                    "sequences please press 2\n")
 
         if choice == '2':
             '''Create temporary msa file'''
@@ -69,6 +72,10 @@ def file_choice():
             show_file_content('ascii_temp.txt')
 
             choice = input("Would you like to print another tree? y/n\n")
+            if choice == 'y':
+                choice = input(
+                    "If you would like to display an MSA file please press 1. If you would like to align multiple "
+                    "sequences please press 2\n")
 
             '''Remove temporary file'''
             os.remove(file_path)
@@ -79,8 +86,8 @@ def file_choice():
             exit()
 
         else:
-            file_type = input("Invalid choice. Please Enter 1 for single sequence"
-                              "\nEnter 1 for a multiple sequence fasta file.\n Enter 2 for a multiple sequence ")
+            file_type = input("Invalid choice.\nPlease enter 1 for a multiple sequence aligned file."
+                              "\n Enter 2 to align your file first.")
 
 
 def show_file_content(filename):
