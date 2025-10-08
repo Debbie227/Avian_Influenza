@@ -82,7 +82,20 @@ python Main.py
 
 - **Generate Phylogenetic Tree**
   - Generated tree can be viewed in window.
-  
+  - Output example
+```
+     |    |   |                _____________ AAK49377
+ |    |   |          _____|
+ |    |   |_________|     |_________________ AZN10068
+ |____|             |
+      |             |_______________ AKC45365
+      |
+      |                                     _____ ANJ61435
+      |            ________________________|
+      |___________|                        |____ AJM70729
+                  |
+                  |______________________ AJM70741
+```
 - **Generate Amino Acid Comparison**
   - Generated table can be saved in various formats.
 
