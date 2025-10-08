@@ -6,7 +6,7 @@ from HPAI_maps.HPAI_Animal_map import generate_animal_map
 from HPAI_maps.scrape_CDC import scrape_CDC_data
 from HPAI_maps.scrape_fluview import scrape_fluview_data  # Import the scraping function
 from HPAI_maps.HPAI_Human_map import generate_human_map
-from Phylogenetics.Print_tree import show_file_content
+from Phylogenetics.Print_tree import show_file_content, file_choice
 from Protein_Analysis.seq_frequency import multiple_sequence_welcome
 import time
 import plotly.io as pio
@@ -79,10 +79,7 @@ def main():
                     print("Failed to generate the human map.")
 
         elif choice == "3":  # Print Phylogenetic Tree on Screen
-            print("Fetching Phylogenetic Tree")
-            from Phylogenetics.Print_tree import show_file_content  # Import the function to show tree
-            show_file_content("tree_analysis_output.txt")  # Call the function to show the tree
-
+            file_choice()
 
         elif choice == "4":
             print("This feature is not currently available.\n")

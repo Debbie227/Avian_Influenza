@@ -22,7 +22,7 @@ License: MIT License
 """
 
 
-def phyo_tree():
+def phyo_tree(file_path):
 
     """ When a FASTA formatted MSA file is selected via file selection, this will save a distance based
     phylogenetic tree.
@@ -34,17 +34,6 @@ def phyo_tree():
     None
 
     """
-
-    try:
-        file_path = file_selector()
-    except tk.TclError:
-        file_path = input("Please enter file path.\n")
-
-    if os.path.exists(file_path):
-        print("Generating Distance tree.\n")
-    else:
-        print("File not found.")
-        exit()
 
     # Load the alignment
     alignment = AlignIO.read(file_path, "fasta")
@@ -78,4 +67,14 @@ def phyo_tree():
 
 
 if __name__ == "__main__":
-    phyo_tree()
+    try:
+        file_path = file_selector()
+    except tk.TclError:
+        file_path = input("Please enter file path.\n")
+
+    if os.path.exists(file_path):
+        print("Generating Distance tree.\n")
+    else:
+        print("File not found.")
+        exit()
+    phyo_tree(file_path)
