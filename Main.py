@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-
-
+from Genetic_Analysis.MSA import nucleotide_MSA
 from HPAI_maps import HPAI_Animal_map
 from HPAI_maps.HPAI_Animal_map import generate_animal_map
 from HPAI_maps.scrape_CDC import scrape_CDC_data
@@ -11,7 +10,6 @@ from Protein_Analysis.seq_frequency import multiple_sequence_welcome
 import time
 import plotly.io as pio
 import os
-
 
 """
 File name: Main.py
@@ -25,6 +23,8 @@ Description:
 
 License: MIT License
 """
+
+
 def main():
     print("     Welcome to the Avian Influenza Genomics and Phylogenetics Comparison Tool!!")
     print("        *******************************************************************        ")
@@ -40,7 +40,7 @@ def main():
         "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY", "FL"
     ]
 
-    while choice != "7":
+    while choice != "9":
 
         print("                    Please choose from the following options.\n")
 
@@ -49,15 +49,15 @@ def main():
         print("3. Generate Phylogenetic Tree")
         print("4. Generate Nucleotide Comparison")
         print("5. Generate Protein Comparison")
-        print("6. Exit\n")
+        print("6. Generate MSA file")
+        print("7. Exit\n")
 
-        choice = input("Enter your choice: ")
+        choice = input("Enter the number for your choice: ")
 
-        if choice == "1":   # Avian Influenza in Mammals Map
+        if choice == "1":  # Avian Influenza in Mammals Map
             fig = generate_animal_map()
             print("Animal Map has been generated.\n")
             fig.show()
-
 
         elif choice == "2":  # Generate Human H5 Cases Map
             print("Fetching CDC data..."
@@ -89,12 +89,24 @@ def main():
             multiple_sequence_welcome()
 
         elif choice == "6":
+            print("\nWelcome to the nucleotide multiple sequence alignment tool.\n")
+            file_name = input('Please enter the file name you wish to save your MSA as or type "c" to cancel.\n')
+            if file_name.lower() != 'c':
+                with open(file_name, "w") as file:
+                    print("Please choose your fasta formatted sequence file to align.\n")
+                    file.write(nucleotide_MSA())
+                    print("Thank you for using the msa alignment tool.\n")
+            else:
+                continue
+
+        elif choice == "7":
             print("Exiting program. Goodbye!")
             break
 
         else:
             print("Invalid choice. Please try again.\n")
             time.sleep(1)
+
 
 if __name__ == "__main__":
     main()

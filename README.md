@@ -6,7 +6,7 @@ This Python program will perform an analysis on Avian Influenza strains includin
 
 - **Sequence Input**: The program can accept a nucleotide sequence either from a FASTA file or entered manually.
 - **BLAST Search**: It connects to the NCBI BLAST service and performs a nucleotide BLAST search.
-- **Sequence Alignment**: (Not Yet Implemented in Main - Used in phylogenetic tree creation)
+- **Sequence Alignment**: Creates a multiple sequence alignment file from a fasta file with multiple sequences.
 - **Phylogenetic Tree Construction**: (Not Fully Implemented) The Phylogenetic Tree feature will allow visualization of the evolutionary relationships between different H5 strains. It will involve aligning sequences using MAFFT, constructing a tree using PhyML, and analyzing divergence patterns. (Currently creates Neighbor-Joining ascii tree using biopython.)
 - **Nucleotide and Protein Comparison**: (Nucleotide Not Yet Implemented in Main) 
   - The Nucleotide Comparison feature is designed to compare genetic sequences between H5 strains to detect conserved regions and mutations. It will identify SNPs (single nucleotide polymorphisms) and differences in nucleotide composition to assess genetic variation and potential functional changes.
@@ -85,6 +85,9 @@ python Main.py
 
 - **Generate Amino Acid Comparison**
   - Generated table can be saved in various formats.
+
+- **Generate MSA file**
+  - Generated alignment file is saved to root directory.
 
 ### Example Usage:
 
