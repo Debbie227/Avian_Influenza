@@ -4,15 +4,15 @@ This Python program will perform an analysis on Avian Influenza strains includin
 
 ## Features
 
-- **Sequence Input**: The program can accept a nucleotide sequence either from a FASTA file or entered manually.
-- **BLAST Search**: It connects to the NCBI BLAST service and performs a nucleotide BLAST search.
-- **Sequence Alignment**: Creates a multiple sequence alignment file from a fasta file with multiple sequences.
+
 - **Phylogenetic Tree Construction**: (Not Fully Implemented) The Phylogenetic Tree feature will allow visualization of the evolutionary relationships between different H5 strains. It will involve aligning sequences using MAFFT, constructing a tree using PhyML, and analyzing divergence patterns. (Currently creates Neighbor-Joining ascii tree using biopython.)
 - **Nucleotide and Protein Comparison**: (Nucleotide Not Yet Implemented in Main) 
   - The Nucleotide Comparison feature is designed to compare genetic sequences between H5 strains to detect conserved regions and mutations. It will identify SNPs (single nucleotide polymorphisms) and differences in nucleotide composition to assess genetic variation and potential functional changes.
   - The Amino Acid Comparison feature will focus on protein-level differences among H5 strains. It will help us analyze mutations that could impact protein structure, function, and host adaptation. We plan to evaluate amino acid substitutions, hydrophobicity, and potential effects on viral fitness and virulence.
 - **Interactive Choropleth Map**: The animal choropleth map shows the yearly cases of highly pathogenic Avian strains of influenza in wildlife in the US. 
   - The human choropleth map shows human cases of H5 strains since 2024.
+- **Sequence Input**: The program can accept a nucleotide sequence either from a FASTA file or entered manually. File dialog boxes can be exited to manually enter a sequence.
+- **Sequence Alignment**: Creates a multiple sequence alignment file from a fasta file with multiple sequences. Can be used in comparison and phylo features.
 
 
 ## Installation
@@ -70,7 +70,7 @@ python Main.py
 
 - **input_sequence:** The nucleotide sequence or amino acid sequence to compare. This can either be a FASTA file or a manually entered sequence.
     - If it's a file, use the dialog box to find select the file.
-    - If it's a manually entered sequence, type or paste a sequence with no heading line, spaces, or return characters.
+    - If it's a manually entered sequence, exit the dialog box and type or paste a sequence with no heading line, spaces, or return characters.
 
 ### Output:
 
@@ -84,7 +84,7 @@ python Main.py
   - Generated tree can be viewed in window.
 
 - **Generate Amino Acid Comparison**
-  - Generated table can be saved in various formats.
+  - Generated table can be saved in various formats via the window.
 
 - **Generate MSA file**
   - Generated alignment file is saved to root directory.
