@@ -4,16 +4,16 @@ This Python program will perform an analysis on Avian Influenza strains includin
 
 ## Features
 
-
-- **Phylogenetic Tree Construction**: (Not Fully Implemented) The Phylogenetic Tree feature will allow visualization of the evolutionary relationships between different H5 strains. It will involve aligning sequences using MAFFT, constructing a tree using PhyML, and analyzing divergence patterns. (Currently creates Neighbor-Joining ascii tree using biopython.)
-- **Nucleotide and Protein Comparison**: (Nucleotide Not Yet Implemented in Main) 
-  - The Nucleotide Comparison feature is designed to compare genetic sequences between H5 strains to detect conserved regions and mutations. It will identify SNPs (single nucleotide polymorphisms) and differences in nucleotide composition to assess genetic variation and potential functional changes.
-  - The Amino Acid Comparison feature will focus on protein-level differences among H5 strains. It will help us analyze mutations that could impact protein structure, function, and host adaptation. We plan to evaluate amino acid substitutions, hydrophobicity, and potential effects on viral fitness and virulence.
 - **Interactive Choropleth Map**: The animal choropleth map shows the yearly cases of highly pathogenic Avian strains of influenza in wildlife in the US. 
   - The human choropleth map shows human cases of H5 strains since 2024.
+- **Phylogenetic Tree Construction**: (Not Fully Implemented) The Phylogenetic Tree feature will allow visualization of the evolutionary relationships between different H5 strains. It will involve aligning sequences using MAFFT, constructing a tree using PhyML, and analyzing divergence patterns. 
+  - (Currently creates Neighbor-Joining ascii tree using biopython accepting either unaligned fasta sequences or an MSA file.)
+- **Nucleotide and Protein Comparison**: (Nucleotide Not Yet Implemented in Main) 
+  - The Nucleotide Comparison feature is designed to compare genetic sequences between H5 strains to detect conserved regions and mutations. It will identify SNPs (single nucleotide polymorphisms) and differences in nucleotide composition to assess genetic variation and potential functional changes.
+  - The Amino Acid Comparison feature focuses on protein-level differences among H5 strains. It shows mutations that could impact protein structure, function, and host adaptation. This feature takes a single or multiple user sequences and compares them to a consensus sequence of H5N1 animal cases.
+    - Animal consensus MSA file can be replaced in the Protein Analysis folder to create and compare strains to a custom consensus sequence. 
+- **Sequence Alignment**: Creates a multiple sequence alignment file from a fasta file with multiple sequences. Can be used in comparison and phylo features or separately to create an MSA file.
 - **Sequence Input**: The program can accept a nucleotide sequence either from a FASTA file or entered manually. File dialog boxes can be exited to manually enter a sequence.
-- **Sequence Alignment**: Creates a multiple sequence alignment file from a fasta file with multiple sequences. Can be used in comparison and phylo features.
-
 
 ## Installation
 
@@ -69,8 +69,8 @@ python Main.py
 ### Input:
 
 - **input_sequence:** The nucleotide sequence or amino acid sequence to compare. This can either be a FASTA file or a manually entered sequence.
-    - If it's a file, use the dialog box to find select the file.
-    - If it's a manually entered sequence, exit the dialog box and type or paste a sequence with no heading line, spaces, or return characters.
+    - If it's a file, use the dialog box to find select the file. Multiple sequences must be in file format.
+    - If it's a single manually entered sequence, exit the dialog box and type or paste a sequence with no heading line, spaces, or return characters.
 
 ### Output:
 
